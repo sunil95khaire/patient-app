@@ -1,0 +1,68 @@
+<form #patientForm="ngForm" (ngSubmit)="savePatient(patientForm)" class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group" [class.was-validated]="patientname.invalid && patientname.touched">
+        <label for="patientname" class="form-control-label">Name</label>
+        <input (keypress)="keyPress($event)" type="text" name="patientname" placeholder="Enter Name" required class="form-control"
+          id="patientname" [(ngModel)]="patient.Name" #patientname="ngModel">
+        <div class="invalid-feedback" *ngIf="patientname.invalid && patientname.touched">Name is mandatory.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="patientDob" class="form-control-label">Birth Date</label>
+        <input max="{{maxAge | date:'yyyy-MM-dd'}}" min="{{minAge | date:'yyyy-MM-dd'}}" type="date" name="patientDob" placeholder="DD/MM/YYYY" required class="form-control" id="patientDob" [(ngModel)]="patient.DOB"
+          #patientDob="ngModel">
+      </div>
+
+      <div class="form-group" [class.was-validated]="state.invalid && state.touched">
+        <label for="state" class="form-control-label">State</label>
+        <select id="state" name="state" required class="form-control" (change)="getCities()" [(ngModel)]="patient.StateId" #state="ngModel">
+          <option [value]="-1">Select State</option>
+          <option [value]="state.Id" *ngFor="let state of states">{{state.Name}}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="state.invalid && state.touched">State is mandatory.</div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group" [class.was-validated]="surNameControl.invalid && surNameControl.touched">
+        <label for="surName" class="form-control-label">SurName</label>
+        <input (keypress)="keyPress($event)" type="text" name="surName" placeholder="Enter SurName" required class="form-control"
+          id="surName" [(ngModel)]="patient.SurName" #surNameControl="ngModel">
+        <div class="invalid-feedback" *ngIf="surNameControl.invalid && surNameControl.touched">SurName is mandatory.</div>
+      </div>
+
+      <div class="form-group" [class.was-validated]="gender.invalid && gender.touched">
+        <label for="gender" class="form-control-label">Gender</label>
+        <select id="gender" name="gender" required class="form-control" [(ngModel)]="patient.Gender" #gender="ngModel">
+          <option [value]="null">Select Gender</option>
+          <option value='M'>Male</option>
+          <option value='F'>Female</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="gender.invalid && gender.touched">Gender is mandatory.</div>
+      </div>
+
+      <div class="form-group" [class.was-validated]="city.invalid && city.touched">
+        <label for="city" class="form-control-label">City</label>
+        <select id="city" name="city" required class="form-control" [(ngModel)]="patient.CityId" #city="ngModel">
+          <option [value]="-1">Select City</option>
+          <option [value]="city.Id" *ngFor="let city of cities">{{city.Name}}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="city.invalid && city.touched">City is mandatory.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class=col-md-11>
+      <input type="button" (click)="getPatients()" value="Fetch" class="btn btn-primary pull-left" />
+    </div>
+    <button style="margin-left: 1em" [disabled]="patientForm.invalid" type="submit" class="btn btn-primary pull-right">Save</button>
+  </div>
+
+<br>
+
+<app-list-patients [patients]="patients"></app-list-patients>
+
+</form>
+

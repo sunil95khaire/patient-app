@@ -1,0 +1,21 @@
+<a class="navbar-brand" href="#">Patient List</a>   
+<div class='table-responsive'>
+  <table class='table table-bordered' *ngIf='patients && patients.length'>
+    <thead style="border-bottom: 0">
+      <tr>
+        <th>Name</th>
+        <th>SurName</th>
+        <th>DOB</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let patient of patients'>
+        <td>{{ patient.Name }}</td>
+        <td>{{ patient.SurName }}</td>
+        <td>{{ patient.DOB | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ patient.Gender }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
